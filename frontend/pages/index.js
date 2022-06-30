@@ -215,7 +215,9 @@ export default function Home() {
       // Get the address associated to signer which is connected to Metamask
       const address = await signer.getAddress();
       if (address.toLowerCase() === _owner.toLowerCase()) {
-        setIsOwner(true);
+        setIsOwner(true)
+      } else {
+        setIsOwner(false)
       }
     } catch (err) {
       console.error(err);
@@ -334,22 +336,19 @@ export default function Home() {
       //   providerOptions: {},
       //   disableInjectedProvider: false,
       // });
-      console.log(1)
       startEffects()
-      console.log(window.ethereum)
-      // window.ethereum.on("accountsChanged", () => {
-      //   console.log("account changed")
-      //   startEffects()
-      // })
-      console.log(3)
+      window.ethereum.on("accountsChanged", () => {
+        console.log("account changed")
+        startEffects()
+      })
       //console.log('You have metamask')
     }
-    // return () => {
-    //   window.ethereum.removeListener("accountsChanged", () => {
-    //     console.log("account changed")
-    //     startEffects()
-    //   });
-    // }
+    return () => {
+      window.ethereum.removeListener("accountsChanged", () => {
+        console.log("account changed")
+        startEffects()
+      });
+    }
   }, [walletConnected]);
 
   /*
