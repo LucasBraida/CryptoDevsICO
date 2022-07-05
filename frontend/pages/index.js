@@ -342,13 +342,14 @@ export default function Home() {
         startEffects()
       })
       //console.log('You have metamask')
+      return () => {
+        window.ethereum.removeListener("accountsChanged", () => {
+          console.log("account changed")
+          startEffects()
+        });
+      }
     }
-    return () => {
-      window.ethereum.removeListener("accountsChanged", () => {
-        console.log("account changed")
-        startEffects()
-      });
-    }
+
   }, [walletConnected]);
 
   /*
